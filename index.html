@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Document</title>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+  
+    <div class="controls text-center p-4">
+        <h2 class="text-3xl mb-2">A* algorithm</h2>
+        <!-- <input type="number" id="speed"> -->
+        <div class="flex justify-center gap-4">
+        <div>
+            <div class="mb-3"><label for="height" class="text-xl">Canvas height: </label><br></div>
+            
+            <label for="width" class="text-xl">Canvas width: </label>
+        </div>
+ 
+       <div>
+            <input type="number" id="h_inp" class="bg-teal-300	p-1 mb-3" onchange="updateDimension('h')" min="2"><br>
+            <input type="number" id="w_inp" class="bg-teal-300	p-1" onchange="updateDimension('w')" min="2">
+        </div>
+
+
+        <!-- <input type="number" id="squaresize"> -->
+        
+
+    </div>
+    <div class="flex justify-center gap-4 my-3">
+        <button class="p-3 py-2 bg-blue-400" onclick="setTooltip('Add start point', 'start')">Set start</button>
+        <button class="p-3 py-2 bg-blue-400" onclick="setTooltip('Add goal point', 'end')">Set goal</button>
+        <button class="p-3 py-2 bg-gray-400" onclick="clearWalls()">Clear walls</button>
+    </div>
+   
+    <span id="tooltip">Add start point</span>
+
+
+    <script src="./generateGraph.js"></script>
+    <script src="./drawCanvasFunctions.js"></script>
+    <script src="./astar.js"></script>
+    <script src="./main.js"></script>
+
+</body>
+</html>

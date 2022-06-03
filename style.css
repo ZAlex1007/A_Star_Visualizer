@@ -1,0 +1,19 @@
+html, body {
+    width:  100%;
+    height: 100%;
+    margin: 0;
+}
+
+canvas{
+    cursor: pointer;
+}
+#tooltip {
+    position: absolute;
+    white-space: nowrap;
+    display: none;
+    background: #3ff9ff;
+    border: 1px solid black;
+    padding: 5px;
+    z-index: 1000;
+    color: black;
+}
