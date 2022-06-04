@@ -34,7 +34,6 @@ function generateGraph(){
             grid[i+squaresPerRow][i]=1;
             row++;
         } else {                                // For the rest of elem - all edges (ex 0-1; 0-4; 0-3)
-            // console.log(i)
             grid[i][i+1]=1;
             grid[i+1][i]=1; 
             grid[i][i+squaresPerRow]=1;

@@ -53,8 +53,8 @@ function drawGrid(){
 
 canvas.addEventListener("click",(e)=>{
     // if(!paused) return;
-    let column=Math.ceil(e.pageX/size)-1;
-    let row=Math.ceil(e.pageY/size)-1
+    let column=Math.ceil((e.pageX)/size)-1;
+    let row=Math.ceil((e.pageY-document.getElementById("controls").offsetHeight)/size)-1
     // Remove all edges from node
     let nodeID = row*squaresPerRow+column
     if(nodeID==endID || nodeID==startID) {
@@ -92,8 +92,8 @@ canvas.addEventListener("contextmenu",(e)=>{
     document.getElementById('tooltip').style.display='none'
     addOnClick='wall'
     // // if(!paused) return;
-    let column=Math.ceil(e.pageX/size)-1;
-    let row=Math.ceil(e.pageY/size)-1
+    let column=Math.ceil((e.pageX)/size)-1;
+    let row=Math.ceil((e.pageY-document.getElementById("controls").offsetHeight)/size)-1
     // Remove all edges from node
     let nodeID = row*squaresPerRow+column
     if(!walls.includes(nodeID)) return 

@@ -52,3 +52,5 @@ document.addEventListener("mousemove", (e)=>{       // Tooltip follow cursor
 
 document.querySelector("#h_inp").value=numberOfSquares/squaresPerRow; 
 document.querySelector("#w_inp").value=squaresPerRow;   
+
+
