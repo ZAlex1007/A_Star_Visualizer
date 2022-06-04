@@ -22,15 +22,20 @@ function renderCheckedNode(nodeID){
     ctx.stroke();
 }
 function renderFinalPath(path){
-    if(path==undefined) return
+    if(path==undefined){animationQueue=[];  paused=0; setGameState(); document.getElementById("gameStateText").innerText="No path"; return}
+    animationQueue=[]
+    let finsishedDelay=0
     for(let i=1; i<path.length-1;i++){
-        ctx.beginPath();
-        ctx.fillStyle = "#ff2e2e"; 
-        ctx.rect((path[i]%squaresPerRow)*size, (Math.floor(path[i]/squaresPerRow))*size, size, size)
-        ctx.fill();
-        ctx.stroke();
+        animationQueue.push(new Timer(()=>{
+            ctx.beginPath();
+            ctx.fillStyle = "#ff2e2e"; 
+            ctx.rect((path[i]%squaresPerRow)*size, (Math.floor(path[i]/squaresPerRow))*size, size, size)
+            ctx.fill();
+            ctx.stroke(); 
+        }, (i-1)*40))
+        finsishedDelay=i*40
     }
-    
+    animationQueue.push(new Timer(()=>{animationQueue=[];  paused=0; setGameState();  document.getElementById("gameStateText").innerText="Finished";}, finsishedDelay))
 }
 
 function drawGrid(){
@@ -52,7 +57,10 @@ function drawGrid(){
 }
 
 canvas.addEventListener("click",(e)=>{
-    // if(!paused) return;
+    if(!paused) {setGameState(); }
+    
+    console.log()
+    rerun=true
     let column=Math.ceil((e.pageX)/size)-1;
     let row=Math.ceil((e.pageY-document.getElementById("controls").offsetHeight)/size)-1
     // Remove all edges from node
@@ -88,6 +96,8 @@ canvas.addEventListener("click",(e)=>{
 
 canvas.addEventListener("contextmenu",(e)=>{
     e.preventDefault()
+    if(!paused) {setGameState();}
+    rerun=true
     // Reset the addOnClick and hide tooltip
     document.getElementById('tooltip').style.display='none'
     addOnClick='wall'

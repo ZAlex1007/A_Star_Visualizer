@@ -28,9 +28,38 @@ function clearWalls(){
     for(let i=0;i<numberOfSquares;i++) 
         grid[i]= [...copyGrid[i]]
     walls=[]
+    rerun=true;
     drawGrid()
     Astar()
-  
+}
+
+
+function changeAnimationTime(){
+    delayTime=document.getElementById('time_inp').value
+}
+
+function setGameState(){    
+    let btn = document.getElementById("gameStateBtn")
+    let span = document.getElementById("gameStateText")
+
+
+    paused = !paused
+ 
+
+    if(rerun) {
+        Astar(); 
+        rerun=0;
+    }
+
+    animationQueue.forEach(anim => {if(paused) anim.pause(); else anim.resume()})
+    
+    if(!(span.innerText=="No path" || span.innerText=="Finished")){ 
+        btn.innerText= paused ? 'Start' : 'Pause'
+        span.innerText= paused ? 'Paused' : 'Running'
+    }
+
+
+    
 }
 
 
@@ -52,5 +81,6 @@ document.addEventListener("mousemove", (e)=>{       // Tooltip follow cursor
 
 document.querySelector("#h_inp").value=numberOfSquares/squaresPerRow; 
 document.querySelector("#w_inp").value=squaresPerRow;   
+document.querySelector("#time_inp").value=delayTime;   
 
 

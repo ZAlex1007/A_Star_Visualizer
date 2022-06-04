@@ -14,22 +14,26 @@
         <div class="controls text-center p-4">
             <h2 class="text-3xl mb-2">A* algorithm</h2>
             <!-- <input type="number" id="speed"> -->
-            <div class="flex justify-center gap-4">
-                <div>
-                    <div class="mb-3"><label for="h_inp" class="text-xl">Canvas height: </label></div>
-                    <div class="mb-3"><label for="width" class="text-xl">Canvas width: </label></div>
-                    <label for="width" class="text-xl">Canvas width: </label>
+            <div class="flex justify-center gap-4 items-center">
+                <div >
+                    <div class="mt-2 mb-4"><label for="h_inp" class="text-xl">Canvas height: </label></div>
+                    <div class="mb-4"><label for="w_inp" class="text-xl">Canvas width: </label></div>
+                    <div class="mb-3 "><label for="time_inp" class="text-xl">A* animation delay: </label></div>
+                    
                 </div>
-            <div>
+                <div>
                     <input type="number" id="h_inp" class="bg-teal-300	p-1 mb-3" onchange="updateDimension('h')" min="2"><br>
-                    <input type="number" id="w_inp" class="bg-teal-300	p-1" onchange="updateDimension('w')" min="2">
+                    <input type="number" id="w_inp" class="bg-teal-300	p-1 mb-3" onchange="updateDimension('w')" min="2"> <br>
+                    <input type="number" id="time_inp" class="bg-teal-300	p-1" onchange="changeAnimationTime()" min="10" step="10">
                 </div>
                 </div>
             <div class="flex justify-center gap-4 my-3">
                 <button class="p-3 py-2 bg-blue-400 hover:bg-blue-300" onclick="setTooltip('Add start point', 'start')">Set start</button>
                 <button class="p-3 py-2 bg-blue-400 hover:bg-blue-300" onclick="setTooltip('Add goal point', 'end')">Set goal</button>
                 <button class="p-3 py-2 bg-gray-400 hover:bg-gray-300" onclick="clearWalls()">Clear walls</button>
+                <button class="p-3 py-2 bg-green-400 hover:bg-green-200" onclick="setGameState()" id="gameStateBtn">Pause</button>
             </div>
+            <span class="text-lg" id="gameStateText">Running</span>
         </div>
     </div>
     
@@ -39,7 +43,7 @@
    
     <span id="tooltip">Add start point</span>
 
-
+    <script src="./timer.js"></script>
     <script src="./generateGraph.js"></script>
     <script src="./drawCanvasFunctions.js"></script>
     <script src="./astar.js"></script>

@@ -25,15 +25,25 @@ function calculateHeuristic(nodeID, endID){
 
 
 let paths=[]  
+let delayTime = 40
+let paused=0
+let rerun=0;
 
+let animationQueue=[]
 
 function Astar(){
-    let id = window.setTimeout(function() {}, 0);
+      // Remove all timeouts
+      let id = window.setTimeout(function() {}, 0);
+    
+      while (id--) {
+          window.clearTimeout(id); // will do nothing if no timeout with id is present
+      }  
+      animationQueue=[]
+    if(paused) return
+  
+ 
 
-    while (id--) {
-        window.clearTimeout(id); // will do nothing if no timeout with id is present
-    }
-
+    document.getElementById("gameStateText").innerText='Running'
 
     let openList=[]
     let closed=[]
@@ -44,7 +54,7 @@ function Astar(){
 
     let goal=false;
     let delayMultiplier=0;
-    let delayTime = 50
+
     while(goal == false && openList.length!=0){
         let minCostNodeID=openList[0];
         openList.forEach(nodeID => {
@@ -71,7 +81,7 @@ function Astar(){
                 paths.push(localPath);
                 
                 // Render the square and seen
-                setTimeout(()=>{renderCheckedNode(nodeID)}, delayMultiplier*delayTime)
+                animationQueue.push(new Timer(()=>{renderCheckedNode(nodeID)}, delayMultiplier*delayTime))
                 delayMultiplier++;
                 if(nodeID==endID) goal=true
             } else {
@@ -88,7 +98,7 @@ function Astar(){
     }
     let finalPath = paths.filter(e=>e[e.length-1]==endID)[0]
     // console.log("Final path: ", finalPath)
-    setTimeout(()=>{renderFinalPath(finalPath)}, delayMultiplier*delayTime)
+    animationQueue.push(new Timer(()=>{renderFinalPath(finalPath);}, delayMultiplier*delayTime))
     
 }
 
