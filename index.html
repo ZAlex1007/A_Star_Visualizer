@@ -33,6 +33,10 @@
                 <button class="p-3 py-2 bg-gray-400 hover:bg-gray-300" onclick="clearWalls()">Clear walls</button>
                 <button class="p-3 py-2 bg-green-400 hover:bg-green-200" onclick="setGameState()" id="gameStateBtn">Pause</button>
             </div>
+            <div class="flex justify-center gap-4 my-3">
+                <button class="p-3 py-2 bg-teal-400 hover:bg-teal-200" onclick="save()" id="save">Save map</button>
+                <button class="p-3 py-2 bg-orange-400 hover:bg-orange-200" onclick="load()" id="load">Load map</button>
+            </div>
             <span class="text-lg" id="gameStateText">Running</span>
         </div>
     </div>

@@ -97,7 +97,7 @@ function Astar(){
         })
     }
     let finalPath = paths.filter(e=>e[e.length-1]==endID)[0]
-    // console.log("Final path: ", finalPath)
+
     animationQueue.push(new Timer(()=>{renderFinalPath(finalPath);}, delayMultiplier*delayTime))
     
 }

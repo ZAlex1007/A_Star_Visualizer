@@ -3,12 +3,13 @@ drawGrid()
 Astar()
 
 function updateDimension(dimension){
-    // this.event.target.value
-    if(dimension=='h') numberOfSquares=squaresPerRow*parseInt(this.event.target.value)
+    let inputValue = this.event.target.value
+    inputValue = (inputValue >= 2) ? inputValue : 2
+    this.event.target.value = inputValue    // the input value should be >=2
+    if(dimension=='h') numberOfSquares=squaresPerRow*parseInt(inputValue)
     else  {
-        // console.log(this.event.target.value)
         numberOfSquares= Math.ceil(numberOfSquares/squaresPerRow)
-        squaresPerRow=parseInt(this.event.target.value)
+        squaresPerRow=parseInt(inputValue)
         numberOfSquares*=squaresPerRow 
         
     }
@@ -47,7 +48,8 @@ function setGameState(){
  
 
     if(rerun) {
-        Astar(); 
+        drawGrid();
+        Astar();
         rerun=0;
     }
 
@@ -84,3 +86,32 @@ document.querySelector("#w_inp").value=squaresPerRow;
 document.querySelector("#time_inp").value=delayTime;   
 
 
+function save(){
+    localStorage.setItem('startID', startID)
+    localStorage.setItem('endID', endID)  
+    localStorage.setItem('squaresPerRow', squaresPerRow)  
+    localStorage.setItem('numberOfSquares', numberOfSquares)  
+    localStorage.setItem('walls', JSON.stringify(walls)) 
+    localStorage.setItem('grid', JSON.stringify(grid)) 
+    localStorage.setItem('copyGrid', JSON.stringify(copyGrid)) 
+}
+
+function load(){
+    if(localStorage.getItem('startID')==null) return
+    walls = JSON.parse(localStorage.getItem('walls'))
+    grid = JSON.parse(localStorage.getItem('grid'))
+    copyGrid = JSON.parse(localStorage.getItem('copyGrid'))
+    startID=localStorage.getItem('startID')
+    endID=localStorage.getItem('endID')
+    squaresPerRow=localStorage.getItem('squaresPerRow')
+    numberOfSquares=localStorage.getItem('numberOfSquares')
+  
+    document.querySelector("#h_inp").value=numberOfSquares/squaresPerRow; 
+    document.querySelector("#w_inp").value=squaresPerRow;   
+    document.querySelector("#time_inp").value=delayTime;   
+
+    
+    paused = 0; setGameState(); rerun=1
+    
+    drawGrid()
+}

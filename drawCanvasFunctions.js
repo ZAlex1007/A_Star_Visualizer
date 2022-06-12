@@ -7,7 +7,8 @@ canvas.width = size*squaresPerRow
 canvas.height = size*lastRow
 
 let startID=20;
-let endID=23;                  
+let endID=23; 
+let mouseDownBtn=-1                 
 
 let addOnClick = 'wall'             // What to add on click on canvas (wall / end point / goal point)
 
@@ -22,7 +23,7 @@ function renderCheckedNode(nodeID){
     ctx.stroke();
 }
 function renderFinalPath(path){
-    if(path==undefined){animationQueue=[];  paused=0; setGameState(); document.getElementById("gameStateText").innerText="No path"; return}
+    if(path==undefined){animationQueue=[];  paused=0; setGameState(); document.getElementById("gameStateText").innerText="No path"; rerun=1; return}
     animationQueue=[]
     let finsishedDelay=0
     for(let i=1; i<path.length-1;i++){
@@ -35,7 +36,7 @@ function renderFinalPath(path){
         }, (i-1)*40))
         finsishedDelay=i*40
     }
-    animationQueue.push(new Timer(()=>{animationQueue=[];  paused=0; setGameState();  document.getElementById("gameStateText").innerText="Finished";}, finsishedDelay))
+    animationQueue.push(new Timer(()=>{animationQueue=[];  paused=0; setGameState();  document.getElementById("gameStateText").innerText="Finished"; rerun=1}, finsishedDelay))
 }
 
 function drawGrid(){
@@ -56,11 +57,9 @@ function drawGrid(){
     }
 }
 
-canvas.addEventListener("click",(e)=>{
-    if(!paused) {setGameState(); }
-    
-    console.log()
-    rerun=true
+canvas.addEventListener("contextmenu",(e)=>{ e.preventDefault() });
+
+function addWall(e){
     let column=Math.ceil((e.pageX)/size)-1;
     let row=Math.ceil((e.pageY-document.getElementById("controls").offsetHeight)/size)-1
     // Remove all edges from node
@@ -89,15 +88,9 @@ canvas.addEventListener("click",(e)=>{
     // Reset the addOnClick and hide tooltip
     document.getElementById('tooltip').style.display='none'
     addOnClick='wall'
-    drawGrid()          // Redraw the grid
-    Astar()             // Find the new path
-});
+}
 
-
-canvas.addEventListener("contextmenu",(e)=>{
-    e.preventDefault()
-    if(!paused) {setGameState();}
-    rerun=true
+function removeWall(e){
     // Reset the addOnClick and hide tooltip
     document.getElementById('tooltip').style.display='none'
     addOnClick='wall'
@@ -109,7 +102,31 @@ canvas.addEventListener("contextmenu",(e)=>{
     if(!walls.includes(nodeID)) return 
     addEdges(nodeID)
     walls=walls.filter(e => e!=nodeID)
+}
+
+canvas.addEventListener( 'mousedown', (e) =>{
+    mouseDownBtn=e.button;     // e.button 0 - left click; 2- right click
+    if(!paused) {setGameState(); }
+    rerun=true
+
+    if(e.button == 0) addWall(e)
+    else if(e.button == 2) removeWall(e)
+ 
     drawGrid()          // Redraw the grid
     Astar()             // Find the new path
-});
+})
+
+canvas.addEventListener( 'mouseup', (e) =>{ mouseDownBtn=-1; })
+canvas.addEventListener( 'mouseleave', (e) =>{ mouseDownBtn=-1; })
+
+canvas.addEventListener( 'mousemove', (e) =>{
+    if(mouseDownBtn==-1) return
+    if(!paused) {setGameState(); }
+    rerun=true
+    if(mouseDownBtn == 0) addWall(e)
+    else if(mouseDownBtn == 2) removeWall(e)
+ 
+    drawGrid()          // Redraw the grid
+    Astar()             // Find the new path
+})
 
