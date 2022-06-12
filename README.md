@@ -11,4 +11,4 @@ This projects implements A* alogrithm with a visualiser in JS and HTML5 canvas.
 - Save/load in local stroage
 - Set animation delay
 
-![algorithm gif][/astar.gif]
+![algorithm gif](/astar.gif)
